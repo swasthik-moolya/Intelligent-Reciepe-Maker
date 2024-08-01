@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Recipe Generator</title>
+</head>
+<body>
+    <h1>Intelligent Recipe Generator</h1>
+    <form id="ingredient-form">
+        <input type="text" name="ingredient" placeholder="Enter ingredient" required>
+        <button type="submit">Add Ingredient</button>
+    </form>
+    <div id="message"></div>
+    <script>
+        document.getElementById('ingredient-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            fetch('/add_ingredient', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                var messageDiv = document.getElementById('message');
+                messageDiv.innerHTML = data.message;
+                messageDiv.style.color = data.success ? 'green' : 'red';
+            });
+        });
+    </script>
+</body>
+</html>
